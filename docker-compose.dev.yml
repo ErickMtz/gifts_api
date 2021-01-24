@@ -1,0 +1,15 @@
+version: '3.1'
+volumes:
+  dbdata:
+services:
+  postgres:
+    container_name: gifts_api_development
+    image: postgres:13.1
+    ports:
+      - '31027:5432'
+    environment:
+      - POSTGRES_USER=apptegy
+      - POSTGRES_PASSWORD=apptegy
+      - POSTGRES_DB=gifts_api_development
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
