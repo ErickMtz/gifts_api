@@ -23,8 +23,8 @@ default: &default
 
 nonprod: &nonprod
   <<: *default
-  host: <%= Rails.application.secrets.dig(:PG_HOST) || "127.0.0.1" %>
-  port: <%= Rails.application.secrets.dig(:PG_PORT) || "31027" %>
+  host: <%= Rails.application.secrets.dig(:PG_HOST) || "postgres" %>
+  port: <%= Rails.application.secrets.dig(:PG_PORT) || "5432" %>
   username: <%= Rails.application.secrets.dig(:PG_USER) || "apptegy" %>
   password: <%= Rails.application.secrets.dig(:PG_PASSWORD) || "apptegy" %>
 

@@ -6,10 +6,20 @@ services:
     container_name: gifts_api_development
     image: postgres:13.1
     ports:
-      - '31027:5432'
+      - '5432:5432'
     environment:
       - POSTGRES_USER=apptegy
       - POSTGRES_PASSWORD=apptegy
       - POSTGRES_DB=gifts_api_development
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
+  web:
+    container_name: gifts_api_development_web
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/apptegy
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
