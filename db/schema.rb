@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_214116) do
+ActiveRecord::Schema.define(version: 2021_01_26_193534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "school_id"
+    t.string "status"
+    t.string "gifts", default: [], array: true
+    t.boolean "send_email", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["school_id"], name: "index_orders_on_school_id"
+  end
+
+  create_table "orders_recipients", id: false, force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "recipient_id"
+  end
 
   create_table "recipients", force: :cascade do |t|
     t.string "name"
@@ -31,5 +46,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_214116) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "orders", "schools"
   add_foreign_key "recipients", "schools"
 end
