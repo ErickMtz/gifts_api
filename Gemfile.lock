@@ -60,6 +60,8 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -81,6 +83,8 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     listen (3.3.3)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -101,6 +105,7 @@ GEM
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     pg (1.2.3)
+    public_suffix (4.0.6)
     puma (5.1.1)
       nio4r (~> 2.0)
     rack (2.2.3)
@@ -153,6 +158,15 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.10.0)
+    rswag-api (2.3.2)
+      railties (>= 3.1, < 7.0)
+    rswag-specs (2.3.2)
+      activesupport (>= 3.1, < 7.0)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 7.0)
+    rswag-ui (2.3.2)
+      actionpack (>= 3.1, < 7.0)
+      railties (>= 3.1, < 7.0)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
     spring (2.1.1)
@@ -185,6 +199,9 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 6.1.0)
   rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
   shoulda-matchers
   spring
   tzinfo-data
