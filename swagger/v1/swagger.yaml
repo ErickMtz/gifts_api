@@ -4,6 +4,120 @@ info:
   title: API V1
   version: v1
 paths:
+  "/schools/{school_id}/orders":
+    get:
+      summary: Get all orders for a school
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Returns all orders for a school
+        '404':
+          description: Not Found
+    post:
+      summary: Creates an order
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: order
+        in: body
+        schema:
+          type: object
+          properties:
+            send_email:
+              type: boolean
+            recipients:
+              type: array
+              items: integer
+            gifts:
+              type: array
+              items: string
+          required:
+          - recipients gifts
+      responses:
+        '200':
+          description: Creates an Order
+        '422':
+          description: Unprocessable Entity
+  "/schools/{school_id}/orders/{order_id}":
+    put:
+      summary: Updates an Order
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: order_id
+        in: path
+        required: true
+      - name: order
+        in: body
+        schema:
+          type: object
+          properties:
+            send_email:
+              type: boolean
+            recipients:
+              type: array
+              items: integer
+            gifts:
+              type: array
+              items: string
+          required:
+          - recipients gifts
+      responses:
+        '200':
+          description: Updates an Order
+        '422':
+          description: Unprocessable Entity
+        '404':
+          description: Not Found
+  "/schools/{school_id}/orders/{order_id}/ship":
+    post:
+      summary: Ships an Order
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: order_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Ships an Order
+        '404':
+          description: Not Found
+  "/schools/{school_id}/orders/{order_id}/cancel":
+    post:
+      summary: Cancels an Order
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: order_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Cancels an Order
+        '404':
+          description: Not Found
   "/schools/{school_id}/recipients":
     get:
       summary: Get all recipients for school
@@ -99,6 +213,8 @@ paths:
   "/schools":
     post:
       summary: Creates a school
+      tags:
+      - schools
       consumes:
       - application/json
       produces:
@@ -164,4 +280,4 @@ servers:
 - url: https://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: "/apptegy"
