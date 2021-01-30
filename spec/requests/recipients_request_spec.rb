@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Recipients', type: :request do
   path '/schools/{school_id}/recipients' do
     get 'Get all recipients for school' do
+      tags 'Recipients'
       produces 'application/json'
       parameter name: :school_id, in: :path
 
@@ -39,6 +40,7 @@ RSpec.describe 'Recipients', type: :request do
 
   path '/schools/{school_id}/recipients' do
     post 'Creates a recipient' do
+      tags 'Recipients'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :school_id, in: :path
@@ -90,6 +92,7 @@ RSpec.describe 'Recipients', type: :request do
 
   path '/schools/{school_id}/recipients/{recipient_id}' do
     put 'Updates a recipient' do
+      tags 'Recipients'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :school_id, in: :path
@@ -141,6 +144,7 @@ RSpec.describe 'Recipients', type: :request do
 
   path '/schools/{school_id}/recipients/{recipient_id}' do
     delete 'Deletes a recipient' do
+      tags 'Recipients'
       produces 'application/json'
       parameter name: :school_id, in: :path
       parameter name: :recipient_id, in: :path

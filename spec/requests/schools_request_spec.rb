@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Schools', type: :request do
   path '/schools' do
     post 'Creates a school' do
+      tags 'Schools'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :school, in: :body, schema: {
@@ -38,6 +39,7 @@ RSpec.describe 'Schools', type: :request do
 
   path '/schools/{id}' do
     put 'Updates a school' do
+      tags 'Schools'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :id, in: :path
@@ -80,6 +82,7 @@ RSpec.describe 'Schools', type: :request do
 
   path '/schools/{id}' do
     delete 'Deletes a School' do
+      tags 'Schools'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :id, in: :path

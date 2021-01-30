@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Orders', type: :request do
   path '/schools/{school_id}/orders' do
     get 'Get all orders for a school' do
+      tags 'Orders'
       produces 'application/json'
       parameter name: :school_id, in: :path
 
@@ -39,6 +40,7 @@ RSpec.describe 'Orders', type: :request do
 
   path '/schools/{school_id}/orders' do
     post 'Creates an order' do
+      tags 'Orders'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :school_id, in: :path
@@ -95,6 +97,7 @@ RSpec.describe 'Orders', type: :request do
 
   path '/schools/{school_id}/orders/{order_id}' do
     put 'Updates an Order' do
+      tags 'Orders'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :school_id, in: :path
@@ -142,6 +145,7 @@ RSpec.describe 'Orders', type: :request do
 
   path '/schools/{school_id}/orders/{order_id}/ship' do
     post 'Ships an Order' do
+      tags 'Orders'
       produces 'application/json'
       parameter name: :school_id, in: :path
       parameter name: :order_id, in: :path
@@ -180,6 +184,7 @@ RSpec.describe 'Orders', type: :request do
 
   path '/schools/{school_id}/orders/{order_id}/cancel' do
     post 'Cancels an Order' do
+      tags 'Orders'
       produces 'application/json'
       parameter name: :school_id, in: :path
       parameter name: :order_id, in: :path

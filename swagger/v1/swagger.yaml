@@ -3,10 +3,16 @@ swagger: '2.0'
 info:
   title: API V1
   version: v1
+tags:
+- name: Schools
+- name: Recipients
+- name: Orders
 paths:
   "/schools/{school_id}/orders":
     get:
       summary: Get all orders for a school
+      tags:
+      - Orders
       produces:
       - application/json
       parameters:
@@ -20,6 +26,8 @@ paths:
           description: Not Found
     post:
       summary: Creates an order
+      tags:
+      - Orders
       consumes:
       - application/json
       produces:
@@ -51,6 +59,8 @@ paths:
   "/schools/{school_id}/orders/{order_id}":
     put:
       summary: Updates an Order
+      tags:
+      - Orders
       consumes:
       - application/json
       produces:
@@ -87,6 +97,8 @@ paths:
   "/schools/{school_id}/orders/{order_id}/ship":
     post:
       summary: Ships an Order
+      tags:
+      - Orders
       produces:
       - application/json
       parameters:
@@ -104,6 +116,8 @@ paths:
   "/schools/{school_id}/orders/{order_id}/cancel":
     post:
       summary: Cancels an Order
+      tags:
+      - Orders
       produces:
       - application/json
       parameters:
@@ -121,6 +135,8 @@ paths:
   "/schools/{school_id}/recipients":
     get:
       summary: Get all recipients for school
+      tags:
+      - Recipients
       produces:
       - application/json
       parameters:
@@ -134,6 +150,8 @@ paths:
           description: Not Found
     post:
       summary: Creates a recipient
+      tags:
+      - Recipients
       consumes:
       - application/json
       produces:
@@ -163,6 +181,8 @@ paths:
   "/schools/{school_id}/recipients/{recipient_id}":
     put:
       summary: Updates a recipient
+      tags:
+      - Recipients
       consumes:
       - application/json
       produces:
@@ -196,6 +216,8 @@ paths:
           description: Not Found
     delete:
       summary: Deletes a recipient
+      tags:
+      - Recipients
       produces:
       - application/json
       parameters:
@@ -214,7 +236,7 @@ paths:
     post:
       summary: Creates a school
       tags:
-      - schools
+      - Schools
       consumes:
       - application/json
       produces:
@@ -237,6 +259,8 @@ paths:
   "/schools/{id}":
     put:
       summary: Updates a school
+      tags:
+      - Schools
       consumes:
       - application/json
       produces:
@@ -263,6 +287,8 @@ paths:
           description: Not Found
     delete:
       summary: Deletes a School
+      tags:
+      - Schools
       consumes:
       - application/json
       produces:
