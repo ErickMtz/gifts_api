@@ -4,6 +4,98 @@ info:
   title: API V1
   version: v1
 paths:
+  "/schools/{school_id}/recipients":
+    get:
+      summary: Get all recipients for school
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Returns all recipients for school
+        '404':
+          description: Not Found
+    post:
+      summary: Creates a recipient
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: recipient
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            address:
+              type: string
+          required:
+          - name email address
+      responses:
+        '200':
+          description: Recipients Created
+        '422':
+          description: Unprocessable Entity
+  "/schools/{school_id}/recipients/{recipient_id}":
+    put:
+      summary: Updates a recipient
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: recipient_id
+        in: path
+        required: true
+      - name: recipient
+        in: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            address:
+              type: string
+          required:
+          - name email address
+      responses:
+        '200':
+          description: Recipient Updated
+        '422':
+          description: Unprocessable Entity
+        '404':
+          description: Not Found
+    delete:
+      summary: Deletes a recipient
+      produces:
+      - application/json
+      parameters:
+      - name: school_id
+        in: path
+        required: true
+      - name: recipient_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Recipient Deleted
+        '404':
+          description: Not Found
   "/schools":
     post:
       summary: Creates a school
