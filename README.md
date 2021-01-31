@@ -16,37 +16,26 @@ The app has the following tools preinstalled and configured:
 #Getting Started
 
 After cloning the repo:
-### Install the gems
 
-```
-bundle install
-```
-### Setup the database
-
-Run docker-compose
+### Start the server
 
 ```
 docker-compose -f docker-compose.dev.yml up -d
 ```
+This starts both database and web applications
 
-Create test database
-
+You should add --build option first time
 ```
-psql -h 127.0.0.1 -U apptegy gifts_api_development -p 31027
-* The database password is: apptegy
-
-CREATE DATABASE gifts_api_test;
-```
-### Migrate the database
-
-```
-bundle exec rake db:migrate
+docker-compose -f docker-compose.dev.yml up -d --build
 ```
 
-### Start the server
-
-You need to start docker-compose first
+### Run tests
 
 ```
-bundle exec rails s -p 3027
+docker exec -it gifts_api_development_web bash
+bundle exec rake db:create
+bundle exec rspec
 ```
+
+### Docs
+Docs are in `localhost\api-docs` once server is running
