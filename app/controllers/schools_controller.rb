@@ -2,7 +2,7 @@ class SchoolsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render(json: { error_message: exception.message }, status: :not_found)
   end
-  rescue_from ActiveRecord::RecordInvalid do |exception|
+  rescue_from ActiveRecord::RecordInvalid, ActionController::ParameterMissing do |exception|
     render(json: { error_message: exception.message }, status: :unprocessable_entity)
   end
 
