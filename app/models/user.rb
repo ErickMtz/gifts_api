@@ -12,4 +12,8 @@ class User < ApplicationRecord
     dependent: :delete_all
 
   validates :email, presence: true, uniqueness: true
+
+  def admin?
+    !!self.admin
+  end
 end

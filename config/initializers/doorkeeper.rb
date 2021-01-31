@@ -7,10 +7,11 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
+    # raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
     # Put your resource owner authentication logic here.
     # Example implementation:
     #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    current_user || redirect_to(login_url(client_id: params[:client_id], return_to: params[:redirect_uri]))
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
@@ -18,7 +19,7 @@ Doorkeeper.configure do
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
   # every time somebody will try to access the admin web interface.
   #
-  # admin_authenticator do
+  admin_authenticator do
   #   # Put your admin authentication logic here.
   #   # Example implementation:
   #
@@ -27,7 +28,12 @@ Doorkeeper.configure do
   #   else
   #     redirect_to sign_in_url
   #   end
-  # end
+      if current_user
+        head :forbidden unless current_user.admin?
+      else
+        redirect_to root_path
+      end
+  end
 
   # You can use your own model classes if you need to extend (or even override) default
   # Doorkeeper models such as `Application`, `AccessToken` and `AccessGrant.
@@ -122,6 +128,7 @@ Doorkeeper.configure do
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-base-controller
   #
   # base_controller 'ApplicationController'
+  base_controller 'SessionsController'
 
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
@@ -229,6 +236,8 @@ Doorkeeper.configure do
   #
   # default_scopes  :public
   # optional_scopes :write, :update
+  default_scopes  :public
+  optional_scopes :write, :update, :admin
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
@@ -243,7 +252,7 @@ Doorkeeper.configure do
   # not in configuration, i.e. +default_scopes+ or +optional_scopes+.
   # (disabled by default)
   #
-  # enforce_configured_scopes
+  enforce_configured_scopes
 
   # Change the way client credentials are retrieved from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then
@@ -345,6 +354,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+  # grant_flows %w[authorization_code]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
@@ -428,6 +438,9 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+  skip_authorization do
+    true
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another

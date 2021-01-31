@@ -12,4 +12,9 @@ Rails.application.routes.draw do
       post :ship
     end
   end
+
+  resources :sessions, only: :create
+  get 'login', to: 'sessions#new', as: 'login'
+  get 'logout', to: 'sessions#destroy', as: 'logout'
+  root to: "sessions#current"
 end

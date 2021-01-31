@@ -39,3 +39,18 @@ bundle exec rspec
 
 ### Docs
 Docs are in `localhost\api-docs` once server is running
+
+### Create a user
+```
+docker exec -it gifts_api_development_web bash
+rails console
+User.create(email: 'admin@email.com', password: '123456', password_confirmation: '123456')
+```
+
+### Create Application
+
+```
+docker exec -it gifts_api_development_web bash
+rails console
+Doorkeeper::Application.create(name: 'AdminApptegy', redirect_uri: 'urn:ietf:wg:oauth:2.0:oob', scopes: ["read"])
+```
