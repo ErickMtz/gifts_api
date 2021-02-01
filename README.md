@@ -37,5 +37,5 @@ bundle exec rake db:create
 bundle exec rspec
 ```
 
-### Docs
+### Docs
 Docs are in `localhost\api-docs` once server is running
