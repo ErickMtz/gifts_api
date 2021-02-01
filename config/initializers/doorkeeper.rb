@@ -7,10 +7,11 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
+    # raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
     # Put your resource owner authentication logic here.
     # Example implementation:
     #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    user
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
@@ -79,7 +80,7 @@ Doorkeeper.configure do
   # want to use API mode that will skip all the views management and change the way how
   # Doorkeeper responds to a requests.
   #
-  # api_only
+  api_only
 
   # Enforce token request content type to application/x-www-form-urlencoded.
   # It is not enabled by default to not break prior versions of the gem.
@@ -121,7 +122,7 @@ Doorkeeper.configure do
   # +ActionController::API+. The return value of this option must be a stringified class name.
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-base-controller
   #
-  # base_controller 'ApplicationController'
+  base_controller 'DoorkeeperController'
 
   # Reuse access token for the same resource owner within an application (disabled by default).
   #
@@ -227,8 +228,8 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  # default_scopes  :public
-  # optional_scopes :write, :update
+  default_scopes :read, :write, :update
+  optional_scopes :admin
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
@@ -243,7 +244,7 @@ Doorkeeper.configure do
   # not in configuration, i.e. +default_scopes+ or +optional_scopes+.
   # (disabled by default)
   #
-  # enforce_configured_scopes
+  enforce_configured_scopes
 
   # Change the way client credentials are retrieved from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then

@@ -6,6 +6,8 @@ class SchoolsController < ApplicationController
     render(json: { error_message: exception.message }, status: :unprocessable_entity)
   end
 
+  before_action -> { doorkeeper_authorize! :admin }
+
   def create
     school = School.new(school_params)
     school.save!
