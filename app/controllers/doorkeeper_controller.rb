@@ -1,7 +1,7 @@
 class DoorkeeperController < ActionController::API
   def user
     user = User.find_by(email: user_params[:email])
-    user&.authenticate(user_params[:password])
+    user&.authenticate(user_params[:password]) || head(:unauthorized)
   end
 
 private
