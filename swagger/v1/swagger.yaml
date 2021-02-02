@@ -8,6 +8,58 @@ tags:
 - name: Recipients
 - name: Orders
 paths:
+  "/oauth/authorize":
+    post:
+      summary: Authorize APP
+      tags:
+      - Oauth
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: client_id
+        in: body
+      - name: redirect_uri
+        in: body
+      - name: response_type
+        in: body
+      - name: email
+        in: body
+      - name: password
+        in: body
+      responses:
+        '200':
+          description: Authorizes app and returns code
+        '400':
+          description: Bad credentials
+        '401':
+          description: Bad request
+  "/oauth/token":
+    post:
+      summary: Get Token
+      tags:
+      - Oauth
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: client_id
+        in: body
+      - name: client_secret
+        in: body
+      - name: redirect_uri
+        in: body
+      - name: code
+        in: body
+      - name: grant_type
+        in: body
+      responses:
+        '200':
+          description: Creates the token
+        '401':
+          description: Unauthorized
   "/schools/{school_id}/orders":
     get:
       summary: Get all orders for a school

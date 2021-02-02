@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipients', type: :request do
+
+  let(:application) do
+    Doorkeeper::Application.create({
+      name: 'ApptegyUser',
+      redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
+    })
+  end
+  let(:user) do
+    User.create(email: 'user@email.com', password: '123456', password_confirmation: '123456')
+  end
+  let!(:token) do
+    Doorkeeper::AccessToken.create(
+      application: application, resource_owner_id: user.id, scopes: :read
+    )
+  end
+
   path '/schools/{school_id}/recipients' do
     get 'Get all recipients for school' do
       tags 'Recipients'
@@ -13,7 +29,7 @@ RSpec.describe 'Recipients', type: :request do
       end
       let(:request_url) { "/schools/#{school_id}/recipients" }
       let(:request_body) { { } }
-      let(:request_headers) { { } }
+      let(:request_headers) { { AUTHORIZATION: "Bearer #{token.token}" } }
       let(:school_id) { school.id }
       let(:school) { FactoryBot.create :school }
       let!(:recipients) { FactoryBot.create_list :recipient, 3, school: school }
@@ -66,7 +82,9 @@ RSpec.describe 'Recipients', type: :request do
           address: '282 Kevin Brook, Imogeneborough, CA 58517',
         }
       end
-      let(:request_headers) { { CONTENT_TYPE: 'application/json' } }
+      let(:request_headers) do
+        { CONTENT_TYPE: 'application/json', AUTHORIZATION: "Bearer #{token.token}" }
+      end
       let(:school_id) { school.id }
       let(:school) { FactoryBot.create :school }
       let(:expected_body) do
@@ -113,7 +131,9 @@ RSpec.describe 'Recipients', type: :request do
       end
       let(:request_url) { "/schools/#{school_id}/recipients/#{recipient_id}" }
       let(:request_body) { { email: 'has-email@noemail.com' } }
-      let(:request_headers) { { CONTENT_TYPE: 'application/json' } }
+      let(:request_headers) do
+        { CONTENT_TYPE: 'application/json', AUTHORIZATION: "Bearer #{token.token}" }
+      end
       let(:school_id) { school.id }
       let(:school) { FactoryBot.create :school }
       let(:recipient_id) { recipient.id }
@@ -155,7 +175,9 @@ RSpec.describe 'Recipients', type: :request do
       end
       let(:request_url) { "/schools/#{school_id}/recipients/#{recipient_id}" }
       let(:request_body) { { } }
-      let(:request_headers) { { CONTENT_TYPE: 'application/json' } }
+      let(:request_headers) do
+        { CONTENT_TYPE: 'application/json', AUTHORIZATION: "Bearer #{token.token}" }
+      end
       let(:school_id) { school.id }
       let(:school) { FactoryBot.create :school }
       let(:recipient_id) { recipient.id }
@@ -175,6 +197,25 @@ RSpec.describe 'Recipients', type: :request do
       response '404', 'Not Found' do
         it_behaves_like 'Not Found Error'
       end
+    end
+  end
+
+  describe 'oauth' do
+    subject do
+      get request_url, params: request_body.to_json, headers: request_headers
+      response
+    end
+    let(:request_url) { "/schools/#{school_id}/recipients" }
+    let(:request_body) { { } }
+    let(:request_headers) { { AUTHORIZATION: "Bearer #{token.token}" } }
+    let(:school_id) { school.id }
+    let(:school) { FactoryBot.create :school }
+
+    it { is_expected.to have_http_status(:ok) }
+
+    context 'unauthorized' do
+      let(:request_headers) { { } }
+      it { is_expected.to have_http_status(:unauthorized) }
     end
   end
 end

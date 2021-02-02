@@ -9,6 +9,8 @@ class OrdersController < ApplicationController
     render(json: { error_message: exception.message }, status: :conflict)
   end
 
+  before_action :doorkeeper_authorize!
+
   def index
     school = School.eager_load(:orders).find(params[:school_id])
     render json: school.orders.to_json

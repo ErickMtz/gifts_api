@@ -6,6 +6,8 @@ class RecipientsController < ApplicationController
     render(json: { error_message: exception.message }, status: :unprocessable_entity)
   end
 
+  before_action :doorkeeper_authorize!
+
   def index
     school = School.eager_load(:recipients).find(params[:school_id])
     render json: school.recipients.to_json
